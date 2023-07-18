@@ -1,0 +1,10 @@
+body {
+  padding: 20px;
+}
+
+.tag-pill {
+  /* add your custom styles here */
+  color: white;
+  background-color: #17a2b8;
+  margin: 2px;
+}
