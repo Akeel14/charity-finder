@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
+const DETAIL_ENDPOINT = import.meta.env.VITE_BASE_URL + 'nonprofit/';
+const API_KEY = import.meta.env.VITE_API_KEY as string;
 
 interface Charity {
   logoUrl: string;
@@ -27,16 +30,16 @@ const CharityDetail: React.FC = () => {
     const fetchCharity = async () => {
       try {
         const response = await axios.get<NonprofitResponse>(
-          `https://partners.every.org/v0.2/nonprofit/${id!}?apiKey=pk_live_2caf310116284beb94a622637fa432d0`
+          `${DETAIL_ENDPOINT}${id!}?apiKey=${API_KEY}`
         );
         console.log(response.data); // log response data
         const nonprofitData = response.data.data;
         if (
-          "logoUrl" in nonprofitData.nonprofit &&
-          "coverImageUrl" in nonprofitData.nonprofit &&
-          "name" in nonprofitData.nonprofit &&
-          "description" in nonprofitData.nonprofit &&
-          "ein" in nonprofitData.nonprofit
+          'logoUrl' in nonprofitData.nonprofit &&
+          'coverImageUrl' in nonprofitData.nonprofit &&
+          'name' in nonprofitData.nonprofit &&
+          'description' in nonprofitData.nonprofit &&
+          'ein' in nonprofitData.nonprofit
         ) {
           setCharity({
             ...nonprofitData.nonprofit,
@@ -47,8 +50,8 @@ const CharityDetail: React.FC = () => {
           } as Charity);
         }
       } catch (error) {
-        console.error("Error fetching charity data: ", error);
-        setError("Failed to load charity details. Please try again later.");
+        console.error('Error fetching charity data: ', error);
+        setError('Failed to load charity details. Please try again later.');
       }
     };
 

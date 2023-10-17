@@ -1,5 +1,8 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+
+const SEARCH_ENDPOINT = import.meta.env.BASE_URL + 'search/';
+const API_KEY = import.meta.env.VITE_API_KEY as string;
 
 interface Charity {
   logoUrl: string;
@@ -19,7 +22,7 @@ interface CharityResponse {
 }
 
 const Search: React.FC<SearchProps> = ({ setCharities }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState<Charity[]>([]);
 
   const fetchCharities = async (url: string) => {
@@ -30,7 +33,7 @@ const Search: React.FC<SearchProps> = ({ setCharities }) => {
 
   const handleSearch = async () => {
     const charities = await fetchCharities(
-      `https://partners.every.org/v0.2/search/${searchTerm}?apiKey=pk_live_2caf310116284beb94a622637fa432d0`
+      `${SEARCH_ENDPOINT}${searchTerm}?apiKey=${API_KEY}`
     );
     setCharities(charities);
   };
@@ -39,7 +42,7 @@ const Search: React.FC<SearchProps> = ({ setCharities }) => {
     if (searchTerm.length >= 3) {
       const fetchSuggestions = async () => {
         const nonprofits = await fetchCharities(
-          `https://partners.every.org/v0.2/search/${searchTerm}?apiKey=pk_live_2caf310116284beb94a622637fa432d0`
+          `${SEARCH_ENDPOINT}${searchTerm}?apiKey=${API_KEY}`
         );
         setSuggestions(nonprofits);
       };
@@ -77,7 +80,7 @@ const Search: React.FC<SearchProps> = ({ setCharities }) => {
         </button>
       </div>
       {suggestions.length > 0 && (
-        <div className="dropdown-menu show" style={{ display: "block" }}>
+        <div className="dropdown-menu show" style={{ display: 'block' }}>
           {suggestions.map((charity) => (
             <button
               key={charity.ein}
